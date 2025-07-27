@@ -11,7 +11,7 @@ export async function GET() {
 		let useMockDB = false;
 		try {
 			await connectToDatabase();
-		} catch (dbError) {
+		} catch {
 			useMockDB = true;
 		}
 
@@ -106,7 +106,7 @@ export async function POST(request: NextRequest) {
 		let useMockDB = false;
 		try {
 			await connectToDatabase();
-		} catch (dbError) {
+		} catch {
 			useMockDB = true;
 		}
 
@@ -141,7 +141,7 @@ export async function POST(request: NextRequest) {
 			const newVideo = await Video.create(videoData);
 			return NextResponse.json(newVideo, { status: 201 });
 		}
-	} catch (error) {
+	} catch {
 		return NextResponse.json(
 			{ error: "Failed to upload video. Please try again." },
 			{ status: 500 }

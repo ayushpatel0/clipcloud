@@ -35,10 +35,7 @@ export async function POST(request: NextRequest) {
 		let useMockDB = false;
 		try {
 			await connectToDatabase();
-		} catch (dbError) {
-			console.warn(
-				"MongoDB connection failed, using mock database for development"
-			);
+		} catch {
 			useMockDB = true;
 		}
 

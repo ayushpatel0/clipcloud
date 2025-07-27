@@ -55,7 +55,7 @@ async function loadUsers(): Promise<MockUser[]> {
 		const data = await fs.readFile(USERS_FILE, "utf-8");
 		const users = JSON.parse(data);
 		// Convert date strings back to Date objects
-		return users.map((user: any) => ({
+		return users.map((user: MockUser) => ({
 			...user,
 			createdAt: new Date(user.createdAt),
 		}));
@@ -85,7 +85,7 @@ async function loadVideos(): Promise<MockVideo[]> {
 		const data = await fs.readFile(VIDEOS_FILE, "utf-8");
 		const videos = JSON.parse(data);
 		// Convert date strings back to Date objects
-		return videos.map((video: any) => ({
+		return videos.map((video: MockVideo) => ({
 			...video,
 			createdAt: new Date(video.createdAt),
 		}));

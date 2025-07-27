@@ -88,7 +88,7 @@ export default function VideoUploadForm() {
 			}
 
 			return uploadResult.url;
-		} catch (error) {
+		} catch {
 			// Fallback to object URL if ImageKit fails
 			const objectUrl = URL.createObjectURL(file);
 			return objectUrl;
@@ -124,7 +124,7 @@ export default function VideoUploadForm() {
 						: "Video file processed (local preview mode)!",
 					"success"
 				);
-			} catch (error) {
+			} catch {
 				showNotification(
 					"Failed to upload video file. Please try again.",
 					"error"
@@ -165,7 +165,7 @@ export default function VideoUploadForm() {
 						: "Thumbnail processed (local preview mode)!",
 					"success"
 				);
-			} catch (error) {
+			} catch {
 				showNotification(
 					"Failed to upload thumbnail. Please try again.",
 					"error"
@@ -227,7 +227,7 @@ export default function VideoUploadForm() {
 			} else {
 				throw new Error("Failed to upload video");
 			}
-		} catch (error) {
+		} catch {
 			showNotification("Failed to upload video. Please try again.", "error");
 		} finally {
 			setIsLoading(false);

@@ -23,7 +23,7 @@ export const authOptions: NextAuthOptions = {
 					let useMockDB = false;
 					try {
 						await connectToDatabase();
-					} catch (dbError) {
+					} catch {
 						console.warn(
 							"MongoDB connection failed, using mock database for development"
 						);

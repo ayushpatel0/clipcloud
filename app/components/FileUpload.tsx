@@ -11,7 +11,7 @@ import { AlertCircle, CheckCircle, Loader2, Upload, X } from "lucide-react";
 import { useRef, useState } from "react";
 
 interface FileUploadProps {
-	onSuccess: (res: any) => void;
+	onSuccess: (res: unknown) => void;
 	onProgress?: (progress: number) => void;
 	fileType?: "image" | "video";
 	className?: string;

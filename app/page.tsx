@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 import VideoFeed from "./components/VideoFeed";
 
 export default function Home() {
-	const { data: session, status } = useSession();
+	const { data: session } = useSession();
 	const [videos, setVideos] = useState<IVideo[]>([]);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState<string | null>(null);

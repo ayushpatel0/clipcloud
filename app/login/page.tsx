@@ -127,7 +127,7 @@ function LoginPage() {
 						<div className="divider text-slate-400">or</div>
 						<div className="text-center">
 							<p className="text-slate-600">
-								Don't have an account?{" "}
+								Don&apos;t have an account?{" "}
 								<Link
 									href="/register"
 									className="link link-primary font-medium"

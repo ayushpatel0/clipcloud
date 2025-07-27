@@ -4,7 +4,7 @@ import { IVideo } from "@/models/Video";
 import { ArrowLeft, Calendar, User } from "lucide-react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 export default function VideoPage() {
 	const params = useParams();
@@ -13,13 +13,7 @@ export default function VideoPage() {
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState<string | null>(null);
 
-	useEffect(() => {
-		if (videoId) {
-			fetchVideo();
-		}
-	}, [videoId]);
-
-	const fetchVideo = async () => {
+	const fetchVideo = useCallback(async () => {
 		try {
 			setLoading(true);
 			setError(null);
@@ -43,7 +37,13 @@ export default function VideoPage() {
 		} finally {
 			setLoading(false);
 		}
-	};
+	}, [videoId]);
+
+	useEffect(() => {
+		if (videoId) {
+			fetchVideo();
+		}
+	}, [videoId, fetchVideo]);
 
 	if (loading) {
 		return (

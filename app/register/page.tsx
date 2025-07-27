@@ -53,8 +53,8 @@ function RegisterPage() {
 			setTimeout(() => {
 				router.push("/login");
 			}, 2000);
-		} catch (error: any) {
-			setError(error.message || "Registration failed");
+		} catch (error: unknown) {
+			setError((error as Error)?.message || "Registration failed");
 		}
 		setIsLoading(false);
 	};
