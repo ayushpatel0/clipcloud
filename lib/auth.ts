@@ -3,7 +3,6 @@ import bcrypt from "bcryptjs";
 import { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { connectToDatabase } from "./db";
-import { MockUserDB } from "./persistent-mock-db";
 
 export const authOptions: NextAuthOptions = {
 	providers: [
@@ -19,54 +18,29 @@ export const authOptions: NextAuthOptions = {
 				}
 
 				try {
-					// Try MongoDB first, fallback to mock DB
-					let useMockDB = false;
-					try {
-						await connectToDatabase();
-					} catch {
-						console.warn(
-							"MongoDB connection failed, using mock database for development"
-						);
-						useMockDB = true;
+					// Connect to MongoDB
+					await connectToDatabase();
+
+					// Use MongoDB with bcrypt
+					const user = await User.findOne({ email: credentials.email });
+
+					if (!user) {
+						throw new Error("Invalid email or password");
 					}
 
-					if (useMockDB) {
-						// Use mock database (plain text passwords for development)
-						const user = await MockUserDB.findByEmailAndPassword(
-							credentials.email,
-							credentials.password
-						);
+					const isValid = await bcrypt.compare(
+						credentials.password,
+						user.password
+					);
 
-						if (!user) {
-							throw new Error("Invalid email or password");
-						}
-
-						return {
-							id: user.email, // Use email as ID for mock DB
-							email: user.email,
-						};
-					} else {
-						// Use MongoDB with bcrypt
-						const user = await User.findOne({ email: credentials.email });
-
-						if (!user) {
-							throw new Error("Invalid email or password");
-						}
-
-						const isValid = await bcrypt.compare(
-							credentials.password,
-							user.password
-						);
-
-						if (!isValid) {
-							throw new Error("Invalid email or password");
-						}
-
-						return {
-							id: user._id.toString(),
-							email: user.email,
-						};
+					if (!isValid) {
+						throw new Error("Invalid email or password");
 					}
+
+					return {
+						id: user._id.toString(),
+						email: user.email,
+					};
 				} catch (error) {
 					console.error("Auth error:", error);
 					throw error;
